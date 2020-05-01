@@ -14,6 +14,10 @@ OR
 ```
 ./mvnw compile quarkus:dev -Dquarkus.profile=dev-with-data
 ```
+OR
+```
+./mvn package -Pnative -Dquarkus.native.container-build=true
+```
 
 ## Packaging and running the application
 
