@@ -21,12 +21,14 @@ public class PerfilControl {
     private PerfilService perfilService;
 
     @GET
-    public Response teste(){return Response.ok("TESTE").build();}
+    public Response teste() {
+        return Response.ok("TESTE").build();
+    }
 
 
     @POST
     @Path("/busca")
-    public Response buscar( Filtro filtro, @QueryParam("size") Integer size, @QueryParam("page") Integer page) {
+    public Response buscar(Filtro filtro, @QueryParam("size") Integer size, @QueryParam("page") Integer page) {
         try {
             List<Perfil> perfils = perfilService.buscar(size, page, filtro);
             return Response.ok(perfils).status(HttpStatus.SC_OK).build();
@@ -59,7 +61,7 @@ public class PerfilControl {
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id,Perfil perfil){
+    public Response update(@PathParam("id") Long id, Perfil perfil) {
         try {
             Perfil cadastrado = perfilService.update(id, perfil);
             return Response.ok(cadastrado).status(HttpStatus.SC_OK).build();
