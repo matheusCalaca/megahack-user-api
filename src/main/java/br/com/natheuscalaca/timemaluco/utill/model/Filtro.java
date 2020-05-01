@@ -1,6 +1,5 @@
 package br.com.natheuscalaca.timemaluco.utill.model;
 
-import javax.enterprise.inject.Default;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +7,10 @@ public class Filtro {
 
     private List<String> sort;
     /**
-     *  true para ASC
-     *  false para DESC
+     * true para ASC
+     * false para DESC
      */
-    private boolean sort_type = true ;
+    private boolean sort_type = true;
     private Map<String, Object> filter;
 
     public boolean isSort_type() {
