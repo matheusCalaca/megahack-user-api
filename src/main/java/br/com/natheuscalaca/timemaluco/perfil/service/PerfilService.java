@@ -2,11 +2,13 @@ package br.com.natheuscalaca.timemaluco.perfil.service;
 
 import br.com.natheuscalaca.timemaluco.perfil.model.Perfil;
 import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @ApplicationScoped
@@ -71,11 +73,26 @@ public class PerfilService {
     }
 
     public List<Perfil> buscar(Integer size, Integer page, Filtro filtro) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" 1 = 1");
+        PanacheQuery<Perfil> panacheQuery = null;
+        if (filtro.getFilter() != null) {
+            filtro.getFilter().forEach((k, v) -> {
+                sql.append("and " + k.trim() + " = :" + k.trim() + " ");
+            });
+            panacheQuery = Perfil.find(sql.toString(), filtro.getFilter());
+        } else {
+            panacheQuery = Perfil.find("", new HashMap<String, Object>());
+        }
+        int init = 0;
+        if (page != 0) {
+            init = (page * size) - 1;
+        }
+        panacheQuery.page(init, size);
 
-        filtro.getFilter().forEach((k, v) -> {
+        List<Perfil> perfils = panacheQuery.list();
 
-        });
 
-        return null;
+        return perfils;
     }
 }
