@@ -13,6 +13,6 @@ public final class Util {
      */
     public static Response TRATARERRO(String msg, Exception e){
         e.printStackTrace();
-        return Response.ok(msg).status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build();
+        return Response.ok(new Error(msg)).status(HttpStatus.SC_UNPROCESSABLE_ENTITY).build();
     }
 }

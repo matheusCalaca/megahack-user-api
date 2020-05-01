@@ -26,4 +26,23 @@ public class PerfilService {
         //salvar no BD
         return Perfil.saveAndReturn(perfil);
     }
+
+    /**
+     * deleta o perfil pelo ID
+     *
+     * @param id id do perfil
+     */
+    @Transactional
+    public void delete(Long id) {
+        boolean isDelete = Perfil.deleteById(id);
+
+        if (!isDelete) {
+            Perfil perfil = Perfil.findById(id);
+            if (perfil == null) {
+                throw new IllegalArgumentException("Não foi localizado nenhum perfil para o ID: " + id);
+            }
+            throw new RuntimeException("Falha ao deletar o Perfil de ID" + id);
+        }
+
+    }
 }
