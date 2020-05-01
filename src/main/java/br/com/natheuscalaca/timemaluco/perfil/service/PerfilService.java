@@ -8,6 +8,7 @@ import org.jboss.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,20 +77,42 @@ public class PerfilService {
         StringBuilder sql = new StringBuilder();
         sql.append(" 1 = 1");
         PanacheQuery<Perfil> panacheQuery = null;
+
+        StringBuilder sort = new StringBuilder();
+
+        if (filtro.getSort() != null) {
+            for (int i = 0; i < filtro.getSort().size(); i++) {
+                if (i == 0) {
+                    sort.append("order by " + filtro.getSort().get(i).trim() + " ");
+                } else {
+                    sort.append(", " + filtro.getSort().get(i).trim() + " ");
+                }
+            }
+        }
+
+
         if (filtro.getFilter() != null) {
             filtro.getFilter().forEach((k, v) -> {
                 sql.append("and " + k.trim() + " = :" + k.trim() + " ");
             });
-            panacheQuery = Perfil.find(sql.toString(), filtro.getFilter());
+
+
+            panacheQuery = Perfil.find(sql.toString() + " " + sort.toString(), filtro.getFilter());
         } else {
-            panacheQuery = Perfil.find("", new HashMap<String, Object>());
+
+            panacheQuery = Perfil.find(sort.toString(), new HashMap<String, Object>());
         }
+
         int init = 0;
         if (page != 0) {
             init = (page * size) - 1;
         }
         panacheQuery.page(init, size);
 
+
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("nome");
+        strings.add("cor");
         List<Perfil> perfils = panacheQuery.list();
 
 
