@@ -9,7 +9,6 @@ import org.jboss.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -94,7 +93,6 @@ public class PerfilService {
 
         return perfils;
     }
-
 
 
 }
