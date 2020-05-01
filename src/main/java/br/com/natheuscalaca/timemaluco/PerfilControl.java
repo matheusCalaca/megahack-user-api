@@ -44,7 +44,16 @@ public class PerfilControl {
         } catch (Exception e) {
             return Util.TRATARERRO(e.getMessage(), e);
         }
+    }
 
-
+    @PUT
+    @Path("/{id}")
+    public Response update(@PathParam("id") Long id,Perfil perfil){
+        try {
+            Perfil cadastrado = perfilService.update(id, perfil);
+            return Response.ok(cadastrado).status(HttpStatus.SC_OK).build();
+        } catch (Exception e) {
+            return Util.TRATARERRO(e.getMessage(), e);
+        }
     }
 }

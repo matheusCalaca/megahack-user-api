@@ -45,4 +45,25 @@ public class PerfilService {
         }
 
     }
+
+    /**
+     *  atualiza o perfil
+     * @param id
+     * @param perfil
+     * @return
+     */
+    @Transactional
+    public Perfil update(Long id, @Valid Perfil perfil) {
+
+        Perfil perfilBD = Perfil.findById(id);
+        // valida se perfil e null
+        //uppercase para nome
+
+
+        perfilBD.setNome(perfil.getNome().toUpperCase());
+        perfilBD.setCor(perfil.getCor());
+
+        return perfilBD;
+
+    }
 }
