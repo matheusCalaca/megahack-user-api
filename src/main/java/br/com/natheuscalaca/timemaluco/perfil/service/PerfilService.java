@@ -1,11 +1,13 @@
 package br.com.natheuscalaca.timemaluco.perfil.service;
 
 import br.com.natheuscalaca.timemaluco.perfil.model.Perfil;
+import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 
 @ApplicationScoped
 public class PerfilService {
@@ -47,7 +49,8 @@ public class PerfilService {
     }
 
     /**
-     *  atualiza o perfil
+     * atualiza o perfil
+     *
      * @param id
      * @param perfil
      * @return
@@ -65,5 +68,14 @@ public class PerfilService {
 
         return perfilBD;
 
+    }
+
+    public List<Perfil> buscar(Integer size, Integer page, Filtro filtro) {
+
+        filtro.getFilter().forEach((k, v) -> {
+
+        });
+
+        return null;
     }
 }
