@@ -3,6 +3,7 @@ package br.com.natheuscalaca.timemaluco.perfil.model;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -12,11 +13,13 @@ public class Perfil extends PanacheEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "perfil_nome")
+    @Column(name = "PERFIL_ID")
     private Long id;
-    @Column(name = "prefil_nome")
+    @NotNull(message = "Nome Perfil não pode ser null")
+    @Column(name = "PREFIL_NOME", unique = true)
     private String nome;
-    @Column(name = "perfil_cor")
+    @NotNull(message = "Cor Perfil não pode ser null")
+    @Column(name = "PERFIL_COR", unique = true)
     private String cor;
 
     public Long getId() {

@@ -1,6 +1,8 @@
 package br.com.natheuscalaca.timemaluco.perfil.service;
 
 import br.com.natheuscalaca.timemaluco.perfil.model.Perfil;
+import br.com.natheuscalaca.timemaluco.perfil.model.Perfil_;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,15 +22,8 @@ public class PerfilService {
      */
     @Transactional
     public Perfil cadastrar(@Valid Perfil perfil) {
-        // validar os perfils
-        // se perfil ja existir return error
-        // se a cor não for em hexadeimal retorna erros
-        // nome do perfil não pode ser null
-        // cor não pode ser null
-
         // upper case para o nome do perfil
         perfil.setNome(perfil.getNome().toUpperCase());
-
 
         //salvar no BD
         try {
