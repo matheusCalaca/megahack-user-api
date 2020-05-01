@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "PERFIL")
 public class Perfil extends PanacheEntity {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "perfil_nome")
