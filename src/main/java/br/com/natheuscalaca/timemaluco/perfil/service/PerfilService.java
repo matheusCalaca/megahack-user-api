@@ -9,7 +9,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @ApplicationScoped
@@ -74,34 +73,17 @@ public class PerfilService {
     }
 
     public List<Perfil> buscar(Integer size, Integer page, Filtro filtro) {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" 1 = 1");
+
         PanacheQuery<Perfil> panacheQuery = null;
 
-        StringBuilder sort = new StringBuilder();
 
-        if (filtro.getSort() != null) {
-            for (int i = 0; i < filtro.getSort().size(); i++) {
-                if (i == 0) {
-                    sort.append("order by " + filtro.getSort().get(i).trim() + " ");
-                } else {
-                    sort.append(", " + filtro.getSort().get(i).trim() + " ");
-                }
-            }
-        }
+        String sort = orderByString(filtro);
 
+        StringBuilder sql = sqlFiltro(filtro);
 
-        if (filtro.getFilter() != null) {
-            filtro.getFilter().forEach((k, v) -> {
-                sql.append("and " + k.trim() + " = :" + k.trim() + " ");
-            });
+        String sqlFilter = sql.toString();
+        panacheQuery = Perfil.find(sqlFilter + " " + sort, filtro.getFilter());
 
-
-            panacheQuery = Perfil.find(sql.toString() + " " + sort.toString(), filtro.getFilter());
-        } else {
-
-            panacheQuery = Perfil.find(sort.toString(), new HashMap<String, Object>());
-        }
 
         int init = 0;
         if (page != 0) {
@@ -117,5 +99,30 @@ public class PerfilService {
 
 
         return perfils;
+    }
+
+    private StringBuilder sqlFiltro(Filtro filtro) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" 1 = 1");
+        if (filtro.getFilter() != null) {
+            filtro.getFilter().forEach((k, v) -> {
+                sql.append("and " + k.trim() + " = :" + k.trim() + " ");
+            });
+        }
+        return sql;
+    }
+
+    private String orderByString(Filtro filtro) {
+        StringBuilder sort = new StringBuilder();
+        if (filtro.getSort() != null) {
+            for (int i = 0; i < filtro.getSort().size(); i++) {
+                if (i == 0) {
+                    sort.append("order by " + filtro.getSort().get(i).trim() + " ");
+                } else {
+                    sort.append(", " + filtro.getSort().get(i).trim() + " ");
+                }
+            }
+        }
+        return sort.toString();
     }
 }
