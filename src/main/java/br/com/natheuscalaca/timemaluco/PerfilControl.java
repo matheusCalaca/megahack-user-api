@@ -18,8 +18,6 @@ public class PerfilControl {
     @Inject
     private PerfilService perfilService;
 
-    @Inject
-    private Util util;
 
     @GET
     public String hello() {
@@ -32,7 +30,7 @@ public class PerfilControl {
             Perfil cadastro = perfilService.cadastrar(perfil);
             return Response.ok(cadastro).status(HttpStatus.SC_CREATED).build();
         } catch (Exception e) {
-            return util.TratarErro(e.getMessage(), e);
+            return Util.TRATARERRO(e.getMessage(), e);
         }
 
     }
