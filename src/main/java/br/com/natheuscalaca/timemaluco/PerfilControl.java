@@ -20,6 +20,9 @@ public class PerfilControl {
     @Inject
     private PerfilService perfilService;
 
+    @GET
+    public Response teste(){return Response.ok("TESTE").build();}
+
 
     @POST
     @Path("/busca")
