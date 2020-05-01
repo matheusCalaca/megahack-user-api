@@ -1,8 +1,6 @@
 package br.com.natheuscalaca.timemaluco.perfil.service;
 
 import br.com.natheuscalaca.timemaluco.perfil.model.Perfil;
-import br.com.natheuscalaca.timemaluco.perfil.model.Perfil_;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -26,14 +24,8 @@ public class PerfilService {
         perfil.setNome(perfil.getNome().toUpperCase());
 
         //salvar no BD
-        try {
-            Perfil.persist(perfil);
-        } catch (Exception e) {
-            PerfilService.LOGGER.error(e.getMessage(),
-                    e);
-            return null;
-        }
-        // verificar se foi salvo
+
+        Perfil.persist(perfil);
 
         return perfil;
     }
