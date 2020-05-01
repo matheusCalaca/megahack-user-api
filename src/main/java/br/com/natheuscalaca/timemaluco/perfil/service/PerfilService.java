@@ -24,9 +24,6 @@ public class PerfilService {
         perfil.setNome(perfil.getNome().toUpperCase());
 
         //salvar no BD
-
-        Perfil.persist(perfil);
-
-        return perfil;
+        return Perfil.saveAndReturn(perfil);
     }
 }
