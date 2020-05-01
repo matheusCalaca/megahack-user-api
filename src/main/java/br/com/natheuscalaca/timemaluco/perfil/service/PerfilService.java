@@ -1,6 +1,7 @@
 package br.com.natheuscalaca.timemaluco.perfil.service;
 
 import br.com.natheuscalaca.timemaluco.perfil.model.Perfil;
+import br.com.natheuscalaca.timemaluco.utill.Util;
 import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.jboss.logging.Logger;
@@ -77,11 +78,9 @@ public class PerfilService {
         PanacheQuery<Perfil> panacheQuery = null;
 
 
-        String sort = orderByString(filtro);
+        String sort = Util.ORDER_BY_STRING(filtro);
+        String sqlFilter = Util.SQL_FILTRO(filtro);
 
-        StringBuilder sql = sqlFiltro(filtro);
-
-        String sqlFilter = sql.toString();
         panacheQuery = Perfil.find(sqlFilter + " " + sort, filtro.getFilter());
 
 
@@ -90,39 +89,12 @@ public class PerfilService {
             init = (page * size) - 1;
         }
         panacheQuery.page(init, size);
-
-
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("nome");
-        strings.add("cor");
         List<Perfil> perfils = panacheQuery.list();
 
 
         return perfils;
     }
 
-    private StringBuilder sqlFiltro(Filtro filtro) {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" 1 = 1");
-        if (filtro.getFilter() != null) {
-            filtro.getFilter().forEach((k, v) -> {
-                sql.append("and " + k.trim() + " = :" + k.trim() + " ");
-            });
-        }
-        return sql;
-    }
 
-    private String orderByString(Filtro filtro) {
-        StringBuilder sort = new StringBuilder();
-        if (filtro.getSort() != null) {
-            for (int i = 0; i < filtro.getSort().size(); i++) {
-                if (i == 0) {
-                    sort.append("order by " + filtro.getSort().get(i).trim() + " ");
-                } else {
-                    sort.append(", " + filtro.getSort().get(i).trim() + " ");
-                }
-            }
-        }
-        return sort.toString();
-    }
+
 }
