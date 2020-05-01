@@ -1,26 +1,28 @@
 package br.com.natheuscalaca.timemaluco.perfil.model;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PERFIL")
-public class Perfil {
+public class Perfil extends PanacheEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "perfil_nome")
-    private Integer id;
+    private Long id;
     @Column(name = "prefil_nome")
     private String nome;
     @Column(name = "perfil_cor")
     private String cor;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
