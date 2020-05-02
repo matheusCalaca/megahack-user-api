@@ -35,4 +35,15 @@ private PessoaService pessoaService;
 
     }
 
+    @PUT
+    @Path("/{id}")
+    public Response update(@PathParam("id") Long id, Pessoa pessoa) {
+        try {
+            Pessoa cadastrado = pessoaService.update(id, pessoa);
+            return Response.ok(cadastrado).status(HttpStatus.SC_OK).build();
+        } catch (Exception e) {
+            return Util.TRATARERRO(e.getMessage(), e);
+        }
+    }
+
 }

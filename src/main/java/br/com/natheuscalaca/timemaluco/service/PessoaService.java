@@ -1,15 +1,15 @@
 package br.com.natheuscalaca.timemaluco.service;
 
-import br.com.natheuscalaca.timemaluco.model.Perfil;
+import br.com.natheuscalaca.timemaluco.model.Endereco;
 import br.com.natheuscalaca.timemaluco.model.Pessoa;
-import br.com.natheuscalaca.timemaluco.utill.Util;
-import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import br.com.natheuscalaca.timemaluco.model.Telefone;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -17,9 +17,14 @@ public class PessoaService {
 
     private static final Logger LOGGER = Logger.getLogger(PessoaService.class);
 
+    @Inject
+    private TelefoneServices telefoneServices;
+
+    @Inject
+    private EnderecosServices enderecosServices;
+
     /**
      * Faz o Cadastro de Pessoas para o site
-     *
      *
      * @param pessoa cadastrada no site
      * @return perfil salvo
@@ -27,18 +32,53 @@ public class PessoaService {
     @Transactional
     public Pessoa cadastrar(@Valid Pessoa pessoa) {
         pessoa.setCpf(pessoa.getCpf().trim().replaceAll("[.-]", ""));
-
+        //TODO:
         //validar
-            // cidade, bairro, cep, estado, pais, logradouro obrigatorio caso tenha endereço
-            // perfil tem que ser um ja existente, colocar na entidade para não adicionar
-            // tipo upper case (verificar se coloca um enum com os tipos ja existentes)
-
-
-
+        // perfil tem que ser um ja existente, colocar na entidade para não adicionar
+        // tipo upper case (verificar se coloca um enum com os tipos ja existentes)
 
         //salvar no BD
         return Pessoa.saveAndReturn(pessoa);
     }
 
 
+    /**
+     * atualiza o Pessoa
+     *
+     * @param id     da pessoa para atualizar
+     * @param pessoa
+     * @return
+     */
+    @Transactional
+    public Pessoa update(Long id, @Valid Pessoa pessoa) {
+
+        Pessoa pessoaBD = Pessoa.findById(id);
+
+        pessoaBD.setNome(pessoa.getNome());
+        pessoaBD.setSobreNome(pessoa.getSobreNome());
+        pessoaBD.setCpf(pessoa.getCpf());
+        pessoaBD.setDataNascimento(pessoa.getDataNascimento());
+        pessoaBD.setRg(pessoa.getRg());
+        pessoaBD.setEmail(pessoa.getEmail());
+        pessoaBD.setPerfils(pessoa.getPerfils());
+        pessoaBD.setLinkedin(pessoa.getLinkedin());
+        pessoaBD.setSitePessoal(pessoa.getSitePessoal());
+
+        List<Telefone> telefones = new ArrayList<>();
+        for (int i = 0; i < pessoa.getTelefones().size(); i++) {
+            Telefone update = telefoneServices.update(pessoa.getTelefones().get(i).id, pessoa.getTelefones().get(i));
+            telefones.add(update);
+        }
+        pessoaBD.setTelefones(telefones);
+
+        List<Endereco> enderecos = new ArrayList<>();
+        for (int i = 0; i < pessoa.getEnderecos().size(); i++) {
+            Endereco update = enderecosServices.update(pessoa.getEnderecos().get(i).id, pessoa.getEnderecos().get(i));
+            enderecos.add(update);
+        }
+        pessoaBD.setEnderecos(enderecos);
+
+        return pessoaBD;
+
+    }
 }
