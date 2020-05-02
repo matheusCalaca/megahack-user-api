@@ -2,6 +2,7 @@ package br.com.natheuscalaca.timemaluco.service;
 
 import br.com.natheuscalaca.timemaluco.model.Endereco;
 import br.com.natheuscalaca.timemaluco.model.Empresa;
+import br.com.natheuscalaca.timemaluco.model.Perfil;
 import br.com.natheuscalaca.timemaluco.model.Telefone;
 import br.com.natheuscalaca.timemaluco.utill.Util;
 import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
@@ -108,5 +109,24 @@ public class EmpresaService {
         List<Empresa> empresas = panacheQuery.list();
 
         return empresas;
+    }
+
+    /**
+     * deleta a empresa pelo ID
+     *
+     * @param id id da empresa
+     */
+    @Transactional
+    public void delete(Long id) {
+        boolean isDelete = Empresa.deleteById(id);
+
+        if (!isDelete) {
+            Empresa empresa = Empresa.findById(id);
+            if (empresa == null) {
+                throw new IllegalArgumentException("Não foi localizado nenhuma empresa para o ID: " + id);
+            }
+            throw new RuntimeException("Falha ao deletar a empresa de ID" + id);
+        }
+
     }
 }

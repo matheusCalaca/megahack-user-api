@@ -111,4 +111,23 @@ public class PessoaService {
 
         return pessoas;
     }
+
+    /**
+     * deleta a pessoa pelo ID
+     *
+     * @param id id da pessoa
+     */
+    @Transactional
+    public void delete(Long id) {
+        boolean isDelete = Pessoa.deleteById(id);
+
+        if (!isDelete) {
+            Pessoa pessoa = Pessoa.findById(id);
+            if (pessoa == null) {
+                throw new IllegalArgumentException("Não foi localizado nenhuma pessoa para o ID: " + id);
+            }
+            throw new RuntimeException("Falha ao deletar a pessoa de ID" + id);
+        }
+
+    }
 }

@@ -59,4 +59,15 @@ private PessoaService pessoaService;
         }
     }
 
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Long id) {
+        try {
+            pessoaService.delete(id);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Util.TRATARERRO(e.getMessage(), e);
+        }
+    }
+
 }
