@@ -14,24 +14,24 @@ public class Empresa extends PanacheEntity {
 
     @NotNull(message = "Nome não pode ser NUll")
     @NotBlank(message = "Nome não pode ser Vazio")
-    @Column(name = "EMPRENOMESA_NOME")
-    private String Nome;
+    @Column(name = "EMPRESA_NOME")
+    private String nome;
 
     @NotNull(message = "CNPJ não pode ser NUll")
     @NotBlank(message = "CNPJ não pode ser Vazio")
-    @Column(name = "EMPRECNPJSA_CNPJ")
-    private String CNPJ;
+    @Column(name = "EMPRESA_CNPJ")
+    private String cnpj;
 
     @Column(name = "EMPRESA_RAZAOSOCIAL")
-    private String RazaoSocial;
+    private String razaoSocial;
 
     @Column(name = "EMPRESA_REGISTORCOMERCIAL")
-    private String RegistorComercial;
+    private String registorComercial;
 
     @NotNull(message = "Nome Fantasia não pode ser NUll")
     @NotBlank(message = "Nome Fantasia não pode ser Vazio")
     @Column(name = "EMPRESA_NOME_FANTASIA")
-    private String NomeFantasia;
+    private String nomeFantasia;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL)
@@ -49,49 +49,55 @@ public class Empresa extends PanacheEntity {
     private String email;
 
     @Column(name = "EMPRESA_ATIVIDADE_ECONOMICA")
-    private String AtividadeEconomica;
+    private String atividadeEconomica;
 
     @Column(name = "EMPRESA_QT_FUNCIONARIOS")
     private String qtFuncionarios;
 
+    public static Empresa saveAndReturn(Empresa empresa) {
+        persist(empresa);
+        Empresa empresaSalve = find("EMPRESA_CNPJ", empresa.getCnpj()).firstResult();
+        return empresaSalve;
+    }
+
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
-    public String getCNPJ() {
-        return CNPJ;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setCNPJ(String CNPJ) {
-        this.CNPJ = CNPJ;
+    public void setCnpj(String CNPJ) {
+        this.cnpj = CNPJ;
     }
 
     public String getRazaoSocial() {
-        return RazaoSocial;
+        return razaoSocial;
     }
 
     public void setRazaoSocial(String razaoSocial) {
-        RazaoSocial = razaoSocial;
+        this.razaoSocial = razaoSocial;
     }
 
     public String getRegistorComercial() {
-        return RegistorComercial;
+        return registorComercial;
     }
 
     public void setRegistorComercial(String registorComercial) {
-        RegistorComercial = registorComercial;
+        this.registorComercial = registorComercial;
     }
 
     public String getNomeFantasia() {
-        return NomeFantasia;
+        return nomeFantasia;
     }
 
     public void setNomeFantasia(String nomeFantasia) {
-        NomeFantasia = nomeFantasia;
+        this.nomeFantasia = nomeFantasia;
     }
 
     public List<Endereco> getEnderecos() {
@@ -119,11 +125,11 @@ public class Empresa extends PanacheEntity {
     }
 
     public String getAtividadeEconomica() {
-        return AtividadeEconomica;
+        return atividadeEconomica;
     }
 
     public void setAtividadeEconomica(String atividadeEconomica) {
-        AtividadeEconomica = atividadeEconomica;
+        this.atividadeEconomica = atividadeEconomica;
     }
 
     public String getQtFuncionarios() {
