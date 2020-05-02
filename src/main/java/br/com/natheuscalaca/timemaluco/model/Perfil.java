@@ -1,11 +1,9 @@
-package br.com.natheuscalaca.timemaluco.perfil.model;
+package br.com.natheuscalaca.timemaluco.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.NavigableMap;
 import java.util.Objects;
 
 @Entity

@@ -1,6 +1,6 @@
-package br.com.natheuscalaca.timemaluco.perfil.service;
+package br.com.natheuscalaca.timemaluco.service;
 
-import br.com.natheuscalaca.timemaluco.perfil.model.Perfil;
+import br.com.natheuscalaca.timemaluco.model.Perfil;
 import br.com.natheuscalaca.timemaluco.utill.Util;
 import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
