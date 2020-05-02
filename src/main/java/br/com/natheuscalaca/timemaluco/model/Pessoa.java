@@ -4,44 +4,63 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "PESSOA")
 public class Pessoa extends PanacheEntity {
-
+    @NotNull(message = "Nome não pode ser NUll")
+    @NotBlank(message = "Nome não pode ser Vazio")
     @Column(name = "PESSOA_NOME")
     private String nome;
+
     @Column(name = "PESSOA_SOBRENOME")
     private String sobreNome;
+
+    @NotNull(message = "CPF não pode ser NUll")
+    @NotBlank(message = "CPF não pode ser Vazio")
     @Column(name = "PESSOA_CPF", unique = true)
     private String cpf;
+
     @Column(name = "PESSOA_DATANASCIMENTO")
     @JsonbDateFormat(value = "yyyy-MM-dd")
     private LocalDate dataNascimento;
+
     @Column(name = "PESSOA_RG")
     private String rg;
+
+    @Valid
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PESSOA_ENDERECO_ID" )
+    @JoinColumn(name = "PESSOA_ENDERECO_ID")
     private List<Endereco> enderecos;
+
+    @Valid
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "PESSOA_TELEFONE_ID")
     private List<Telefone> telefones;
+
+    @NotNull(message = "e-mail não pode ser NUll")
+    @NotBlank(message = "e-mail não pode ser Vazio")
     @Column(name = "PESSOA_EMAIL", unique = true)
     private String email;
+
     @ManyToOne
     @JoinColumn(name = "PESSOA_PERFIL_ID")
     private Perfil perfils;
+
     @Column(name = "PESSOA_LINKEDIN")
     private String linkedin;
+
     @Column(name = "PESSOA_SITEPESSOAL")
     private String sitePessoal;
 
     public static Pessoa saveAndReturn(Pessoa pessoa) {
         persist(pessoa);
-        Pessoa pessoaSalve =  find("PESSOA_CPF", pessoa.cpf).firstResult();
+        Pessoa pessoaSalve = find("PESSOA_CPF", pessoa.cpf).firstResult();
         return pessoaSalve;
     }
 

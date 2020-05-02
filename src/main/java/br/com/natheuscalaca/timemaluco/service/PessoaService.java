@@ -26,10 +26,9 @@ public class PessoaService {
      */
     @Transactional
     public Pessoa cadastrar(@Valid Pessoa pessoa) {
+        pessoa.setCpf(pessoa.getCpf().trim().replaceAll("[.-]", ""));
+
         //validar
-            // remover mascara de cpf
-            // CPF obrigatorio
-            // Data de Nascimento menor que a data atual (Vai ser permitido somente para maiores de idade)
             // cidade, bairro, cep, estado, pais, logradouro obrigatorio caso tenha endereço
             // perfil tem que ser um ja existente, colocar na entidade para não adicionar
             // tipo upper case (verificar se coloca um enum com os tipos ja existentes)
