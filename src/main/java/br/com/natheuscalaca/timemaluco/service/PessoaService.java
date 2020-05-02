@@ -1,8 +1,12 @@
 package br.com.natheuscalaca.timemaluco.service;
 
 import br.com.natheuscalaca.timemaluco.model.Endereco;
+import br.com.natheuscalaca.timemaluco.model.Perfil;
 import br.com.natheuscalaca.timemaluco.model.Pessoa;
 import br.com.natheuscalaca.timemaluco.model.Telefone;
+import br.com.natheuscalaca.timemaluco.utill.Util;
+import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -80,5 +84,25 @@ public class PessoaService {
 
         return pessoaBD;
 
+    }
+
+
+    public List<Pessoa> buscar(Integer size, Integer page, Filtro filtro) {
+
+        PanacheQuery<Pessoa> panacheQuery = null;
+
+        String sort = Util.ORDER_BY_STRING(filtro);
+        String sqlFilter = Util.SQL_FILTRO(filtro);
+
+        panacheQuery = Pessoa.find(sqlFilter + " " + sort, filtro.getFilter());
+
+        int init = 0;
+        if (page != 0) {
+            init = (page * size) - 1;
+        }
+        panacheQuery.page(init, size);
+        List<Pessoa> pessoas = panacheQuery.list();
+
+        return pessoas;
     }
 }

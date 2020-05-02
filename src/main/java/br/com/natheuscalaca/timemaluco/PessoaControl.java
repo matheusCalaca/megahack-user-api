@@ -4,12 +4,14 @@ import br.com.natheuscalaca.timemaluco.model.Perfil;
 import br.com.natheuscalaca.timemaluco.model.Pessoa;
 import br.com.natheuscalaca.timemaluco.service.PessoaService;
 import br.com.natheuscalaca.timemaluco.utill.Util;
+import br.com.natheuscalaca.timemaluco.utill.model.Filtro;
 import org.apache.http.HttpStatus;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/api/pessoa")
 @Produces(MediaType.APPLICATION_JSON)
@@ -41,6 +43,17 @@ private PessoaService pessoaService;
         try {
             Pessoa cadastrado = pessoaService.update(id, pessoa);
             return Response.ok(cadastrado).status(HttpStatus.SC_OK).build();
+        } catch (Exception e) {
+            return Util.TRATARERRO(e.getMessage(), e);
+        }
+    }
+
+    @POST
+    @Path("/busca")
+    public Response buscar(Filtro filtro, @QueryParam("size") Integer size, @QueryParam("page") Integer page) {
+        try {
+            List<Pessoa> pessoas = pessoaService.buscar(size, page, filtro);
+            return Response.ok(pessoas).status(HttpStatus.SC_OK).build();
         } catch (Exception e) {
             return Util.TRATARERRO(e.getMessage(), e);
         }

@@ -76,12 +76,10 @@ public class PerfilService {
 
         PanacheQuery<Perfil> panacheQuery = null;
 
-
         String sort = Util.ORDER_BY_STRING(filtro);
         String sqlFilter = Util.SQL_FILTRO(filtro);
 
         panacheQuery = Perfil.find(sqlFilter + " " + sort, filtro.getFilter());
-
 
         int init = 0;
         if (page != 0) {
@@ -89,7 +87,6 @@ public class PerfilService {
         }
         panacheQuery.page(init, size);
         List<Perfil> perfils = panacheQuery.list();
-
 
         return perfils;
     }
