@@ -2,7 +2,9 @@ package br.com.natheuscalaca.timemaluco.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,27 +16,34 @@ public class Pessoa extends PanacheEntity {
     private String nome;
     @Column(name = "PESSOA_SOBRENOME")
     private String sobreNome;
-    @Column(name = "PESSOA_CPF")
+    @Column(name = "PESSOA_CPF", unique = true)
     private String cpf;
     @Column(name = "PESSOA_DATANASCIMENTO")
-    private Date dataNascimento;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate dataNascimento;
     @Column(name = "PESSOA_RG")
     private String rg;
-    @OneToMany
-    @Column(name = "PESSOA_ENDERECOS")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PESSOA_ENDERECO_ID" )
     private List<Endereco> enderecos;
-    @OneToMany
-    @Column(name = "PESSOA_TELEFONES")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PESSOA_TELEFONE_ID")
     private List<Telefone> telefones;
-    @Column(name = "PESSOA_EMAIL")
+    @Column(name = "PESSOA_EMAIL", unique = true)
     private String email;
     @ManyToOne
-    @Column(name = "PESSOA_PERFILS")
+    @JoinColumn(name = "PESSOA_PERFIL_ID")
     private Perfil perfils;
     @Column(name = "PESSOA_LINKEDIN")
     private String linkedin;
     @Column(name = "PESSOA_SITEPESSOAL")
     private String sitePessoal;
+
+    public static Pessoa saveAndReturn(Pessoa pessoa) {
+        persist(pessoa);
+        Pessoa pessoaSalve =  find("PESSOA_CPF", pessoa.cpf).firstResult();
+        return pessoaSalve;
+    }
 
 
     public String getNome() {
@@ -61,11 +70,11 @@ public class Pessoa extends PanacheEntity {
         this.cpf = cpf;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

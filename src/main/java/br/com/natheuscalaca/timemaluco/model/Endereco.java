@@ -26,6 +26,8 @@ public class Endereco extends PanacheEntity {
     private String estado;
     @Column(name = "ENDERECO_PAIS")
     private String pais;
+    @Column(name = "ENDERECO_TIPO")
+    private String tipo;
 
 
     public String getCep() {
@@ -90,5 +92,13 @@ public class Endereco extends PanacheEntity {
 
     public void setPais(String pais) {
         this.pais = pais;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }
