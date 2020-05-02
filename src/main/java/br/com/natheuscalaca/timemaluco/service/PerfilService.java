@@ -72,6 +72,13 @@ public class PerfilService {
 
     }
 
+    /**
+     *  faz a busca com base o obejeto de filtro
+     * @param size tamanho que ira retornar
+     * @param page inicio do retorno
+     * @param filtro filtros nome da entidade
+     * @return List<Perfil> retorna a lista de Perfil
+     */
     public List<Perfil> buscar(Integer size, Integer page, Filtro filtro) {
 
         PanacheQuery<Perfil> panacheQuery = null;

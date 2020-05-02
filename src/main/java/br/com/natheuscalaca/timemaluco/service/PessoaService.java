@@ -86,7 +86,13 @@ public class PessoaService {
 
     }
 
-
+    /**
+     *  faz a busca com base o obejeto de filtro
+     * @param size tamanho que ira retornar
+     * @param page inicio do retorno
+     * @param filtro filtros nome da entidade
+     * @return List<Pessoa> retorna a lista de Pessoa
+     */
     public List<Pessoa> buscar(Integer size, Integer page, Filtro filtro) {
 
         PanacheQuery<Pessoa> panacheQuery = null;
